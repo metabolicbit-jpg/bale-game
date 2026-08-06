@@ -1,3 +1,7 @@
+// ============================================
+//  پرنده‌پرش — نسخه ۲ (متصل به سرور)
+// ============================================
+
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
@@ -27,6 +31,10 @@ const coinsEarnedEl = document.getElementById('coinsEarned');
 const bestScoreEl = document.getElementById('bestScore');
 
 bestScoreEl.textContent = toPersianNum(bestScore);
+
+// ---------- اتصال به سرور ----------
+const API_URL = 'https://aged-river-6500bale-game-server.metabolicbit.workers.dev';
+const USER_ID = new URLSearchParams(window.location.search).get('user') || '';
 
 class Bird {
     constructor() {
@@ -250,6 +258,24 @@ function gameLoop() {
     animId = requestAnimationFrame(gameLoop);
 }
 
+// ---------- ارسال امتیاز به سرور ----------
+async function submitScore(finalScore) {
+    if (!USER_ID) return;
+    try {
+        const res = await fetch(API_URL + '/api/submit', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ user: USER_ID, game: 'flappy', score: finalScore })
+        });
+        const data = await res.json();
+        if (data.ok) {
+            coinsEarnedEl.textContent = toPersianNum(data.coins) + ' (موجودی: ' + toPersianNum(data.balance) + ')';
+        }
+    } catch (e) {
+        console.log('offline submit');
+    }
+}
+
 function gameOver() {
     gameRunning = false;
     cancelAnimationFrame(animId);
@@ -265,7 +291,7 @@ function gameOver() {
         localStorage.setItem('flappyBest', bestScore.toString());
     }
 
-    console.log('Score: ' + score + ' | Coins: ' + coins);
+    submitScore(score);
 
     finalScoreEl.textContent = toPersianNum(score);
     coinsEarnedEl.textContent = toPersianNum(coins);
@@ -300,4 +326,4 @@ function toPersianNum(num) {
 if (window.BaleWebApp) {
     window.BaleWebApp.ready();
     window.BaleWebApp.expand();
-}
+    }
