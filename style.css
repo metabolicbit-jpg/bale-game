@@ -1,0 +1,90 @@
+* {
+    margin: 0; padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background: #0f0f1a;
+    color: white;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 15px;
+    padding-bottom: 80px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0 20px;
+}
+
+header h1 { font-size: 1.5em; }
+
+.coins-badge {
+    background: rgba(255,215,0,0.15);
+    border: 1px solid rgba(255,215,0,0.3);
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 0.95em;
+}
+
+.games-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.game-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 20px 15px;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+}
+
+.game-card:active { transform: scale(0.96); }
+
+.game-icon { font-size: 2.5em; margin-bottom: 8px; }
+.game-card h3 { font-size: 1em; margin-bottom: 4px; }
+.game-card p { font-size: 0.8em; color: #888; margin-bottom: 10px; }
+
+.play-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    padding: 5px 15px;
+    border-radius: 12px;
+    font-size: 0.8em;
+}
+
+.coming-soon { opacity: 0.5; }
+.soon-badge { font-size: 0.8em; color: #666; }
+
+.bottom-nav {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    display: flex;
+    justify-content: space-around;
+    background: rgba(15,15,26,0.95);
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding: 10px 0;
+}
+
+.nav-btn {
+    background: none;
+    border: none;
+    color: #888;
+    font-family: inherit;
+    font-size: 0.8em;
+}
+
+.nav-btn.active { color: #667eea; }
