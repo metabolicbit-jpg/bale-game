@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>🐤 پرنده‌پرش</title>
+    <link rel="stylesheet" href="flappy.css">
+</head>
+<body>
+    <div id="startScreen" class="screen">
+        <h1>🐤 پرنده‌پرش</h1>
+        <p>روی صفحه بزن تا پرنده بپره!</p>
+        <button id="startBtn" class="btn">شروع بازی 🎮</button>
+        <div class="best-score">
+            بهترین رکورد: <span id="bestScore">۰</span> ⭐
+        </div>
+    </div>
+
+    <canvas id="gameCanvas"></canvas>
+
+    <div id="hud" class="hidden">
+        <span id="scoreDisplay">۰</span>
+    </div>
+
+    <div id="gameOverScreen" class="screen hidden">
+        <h2>💥 باختی!</h2>
+        <p>امتیاز: <span id="finalScore">۰</span></p>
+        <p>🪙 سکه کسب‌شده: <span id="coinsEarned">۰</span></p>
+        <button id="retryBtn" class="btn">دوباره بازی 🔄</button>
+        <button id="menuBtn" class="btn btn-secondary">منوی اصلی 🏠</button>
+    </div>
+
+    <script src="flappy.js"></script>
+</body>
+</html>
