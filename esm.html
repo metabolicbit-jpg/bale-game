@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>نبرد واژه‌ها | مرکز بازی</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css">
+<script>
+window.addEventListener('error', function(e) {
+    var d = document.createElement('div');
+    d.textContent = '⚠️ خطا: ' + e.message;
+    d.style.cssText = 'position:fixed;top:5px;left:5px;right:5px;z-index:99;background:#7f1d1d;color:#fff;padding:8px;font-size:12px;border-radius:8px;text-align:center;';
+    document.body.appendChild(d);
+});
+</script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html,body { width:100%; height:100%; overflow:auto; font-family:'Vazirmatn', Tahoma, sans-serif; background:linear-gradient(160deg,#1a1030,#0a1228); color:#eee; }
+.hidden { display:none !important; }
+.screen { min-height:100vh; display:flex; align-items:center; justify-content:center; padding:16px; }
+.card { background:rgba(255,255,255,.06); border:1px solid rgba(255,214,110,.25); border-radius:20px; padding:22px 18px; width:100%; max-width:380px; text-align:center; }
+.wide { max-width:460px; }
+.emoji { font-size:52px; }
+h1 { font-size:24px; margin:8px 0; color:#ffd66e; }
+p { font-size:13px; line-height:1.9; color:#cbd5e1; margin-bottom:10px; }
+.inp { width:100%; border:none; border-radius:12px; padding:12px; margin:6px 0; font-size:16px; text-align:center; font-family:'Vazirmatn'; background:rgba(255,255,255,.1); color:#fff; }
+.inp::placeholder { color:#94a3b8; }
+.code { font-size:40px; letter-spacing:8px; font-weight:bold; color:#ffd66e; background:rgba(255,214,110,.12); border-radius:14px; padding:10px; margin:10px 0; }
+.btn { display:block; width:100%; border:none; border-radius:14px; padding:13px; margin-top:8px; font-size:16px; font-weight:bold; cursor:pointer; background:linear-gradient(90deg,#b8860b,#ffd66e); color:#241a05; font-family:'Vazirmatn'; }
+.btn-ghost { background:rgba(255,255,255,.12); color:#eee; }
+.small { width:48%; display:inline-block; }
+.row { display:flex; justify-content:space-between; gap:8px; margin-top:10px; }
+.topbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+.letter { font-size:22px; font-weight:bold; color:#ffd66e; background:rgba(255,214,110,.15); padding:6px 16px; border-radius:12px; }
+.timer { font-size:26px; font-weight:bold; color:#7dd3fc; }
+.peek { background:rgba(124,58,237,.85); border-radius:12px; padding:8px; font-size:13px; margin-bottom:8px; }
+.form { display:flex; flex-direction:column; gap:8px; width:100%; max-width:380px; }
+.frow { display:flex; align-items:center; gap:8px; }
+.frow label { width:70px; font-size:14px; font-weight:bold; color:#ffd66e; text-align:right; }
+.frow input { flex:1; border:none; border-radius:10px; padding:10px; font-size:15px; font-family:'Vazirmatn'; background:rgba(255,255,255,.1); color:#fff; }
+.rrow { display:flex; justify-content:space-between; padding:8px 4px; border-bottom:1px solid rgba(255,255,255,.1); font-size:13px; }
+.rrow b { color:#ffd66e; }
+.gold { color:#ffd66e; }
+</style>
+</head>
+<body>
+
+<div id="scrHome" class="screen">
+  <div class="card">
+    <div class="emoji">📝</div>
+    <h1>نبرد واژه‌ها</h1>
+    <p>اسم‌فامیل آنلاین در بله — با حریف زنده، ستون طلایی و قدرت‌های جادویی!</p>
+    <input id="nameInput" class="inp" placeholder="اسمت" maxlength="12">
+    <button id="btnCreate" class="btn">🏠 ساخت اتاق</button>
+    <input id="codeInput" class="inp" placeholder="کد اتاق (مثلاً AB12)" maxlength="4">
+    <button id="btnJoin" class="btn btn-ghost">🚪 ورود به اتاق</button>
+  </div>
+</div>
+
+<div id="scrLobby" class="screen hidden">
+  <div class="card">
+    <h1>کد اتاق</h1>
+    <div id="roomCode" class="code">----</div>
+    <p>کد رو برای دوستت بفرست تا وارد بشه</p>
+    <div id="lobbyPlayers" class="code" style="font-size:20px;letter-spacing:0;">👤 ۱/۲</div>
+    <p id="waitMsg">منتظر حریف...</p>
+    <button id="btnStart" class="btn hidden">⚔️ شروع نبرد</button>
+  </div>
+</div>
+
+<div id="scrPlay" class="screen hidden" style="align-items:flex-start;">
+  <div style="width:100%;max-width:400px;">
+    <div class="topbar">
+      <span id="letterEl" class="letter">حرف: -</span>
+      <span id="timerEl" class="timer">۹۰</span>
+    </div>
+    <div id="peekBar" class="peek hidden"></div>
+    <div id="formEl" class="form"></div>
+    <div class="row">
+      <button id="btnMirror" class="btn small">👁️ آینه ۱</button>
+      <button id="btnSubmit" class="btn small">✅ ثبت</button>
+    </div>
+  </div>
+</div>
+
+<div id="scrResult" class="screen hidden">
+  <div class="card wide">
+    <h1 id="winBanner">نتیجه</h1>
+    <div id="resultTable"></div>
+    <button id="btnAgain" class="btn">🔄 یه دست دیگه</button>
+  </div>
+</div>
+
+<script>
+const memStore = {};
+const store = {
+    get: function(k) { try { return localStorage.getItem(k); } catch (e) { return memStore[k] || null; } },
+    set: function(k, v) { try { localStorage.setItem(k, v); } catch (e) { memStore[k] = v; } }
+};
+const API_URL = 'https://aged-river-6500bale-game-server.metabolicbit.workers.dev';
+const USER_ID = new URLSearchParams(window.location.search).get('user') || '';
+const COLS = ['اسم', 'فامیل', 'حیوان', 'میوه', 'شهر', 'غذا'];
+
+let PID = store.get('esm_pid');
+if (!PID) { PID = 'p' + Math.random().toString(36).slice(2, 8); store.set('esm_pid', PID); }
+
+let ROOM = '', phase = '', roundBuilt = false, pollTimer = null;
+
+const scrHome = document.getElementById('scrHome');
+const scrLobby = document.getElementById('scrLobby');
+const scrPlay = document.getElementById('scrPlay');
+const scrResult = document.getElementById('scrResult');
+const roomCodeEl = document.getElementById('roomCode');
+const lobbyPlayersEl = document.getElementById('lobbyPlayers');
+const waitMsg = document.getElementById('waitMsg');
+const btnStart = document.getElementById('btnStart');
+const letterEl = document.getElementById('letterEl');
+const timerEl = document.getElementById('timerEl');
+const peekBar = document.getElementById('peekBar');
+const formEl = document.getElementById('formEl');
+const btnMirror = document.getElementById('btnMirror');
+const btnSubmit = document.getElementById('btnSubmit');
+const winBanner = document.getElementById('winBanner');
+const resultTable = document.getElementById('resultTable');
+
+function show(id) {
+    [scrHome, scrLobby, scrPlay, scrResult].forEach(function(s) { s.classList.add('hidden'); });
+    document.getElementById(id).classList.remove('hidden');
+}
+
+async function api(path, data) {
+    try {
+        const res = await fetch(API_URL + '/api/esm/' + path, {
+            method: data ? 'POST' : 'GET',
+            headers: { 'Content-Type': 'application/json' },
+            body: data ? JSON.stringify(data) : undefined
+        });
+        return await res.json();
+    } catch (e) { return { ok: false }; }
+}
+
+function buildForm(golden) {
+    formEl.innerHTML = '';
+    COLS.forEach(function(col, i) {
+        const row = document.createElement('div');
+        row.className = 'frow';
+        row.innerHTML = '<label>' + col + (i === golden ? ' ⭐' : '') + '</label><input data-col="' + col + '" maxlength="20">';
+        formEl.appendChild(row);
+    });
+    roundBuilt = true;
+}
+
+function collectAnswers() {
+    const out = {};
+    formEl.querySelectorAll('input').forEach(function(inp) { out[inp.dataset.col] = inp.value.trim(); });
+    return out;
+}
+
+function onState(st) {
+    if (st.phase !== phase) { phase = st.phase; if (st.phase !== 'play') roundBuilt = false; }
+
+    if (st.phase === 'lobby' || st.phase === 'ready') {
+        show('scrLobby');
+        roomCodeEl.textContent = st.code;
+        lobbyPlayersEl.textContent = '👤 ' + toPersianNum(st.players.length) + '/۲';
+        const host = st.players[0] && st.players[0].id === PID;
+        if (st.phase === 'ready') {
+            waitMsg.textContent = '⚔️ حریف آماده‌ست: ' + st.players[1].name;
+            if (host) btnStart.classList.remove('hidden');
+            else { btnStart.classList.add('hidden'); waitMsg.textContent += ' — منتظر شروع میزبان...'; }
+        } else {
+            waitMsg.textContent = 'منتظر حریف...';
+            btnStart.classList.add('hidden');
+        }
+    } else if (st.phase === 'play') {
+        show('scrPlay');
+        if (!roundBuilt) buildForm(st.golden);
+        letterEl.textContent = 'حرف: ' + st.letter;
+        const left = Math.max(0, Math.ceil((st.endsAt - Date.now()) / 1000));
+        timerEl.textContent = toPersianNum(left);
+        if (st.peek) {
+            const vals = [];
+            for (const k in st.peek) if (st.peek[k]) vals.push(k + ': ' + st.peek[k]);
+            peekBar.textContent = '👁️ ' + (vals.join('، ') || 'هنوز خالی!');
+            peekBar.classList.remove('hidden');
+        } else peekBar.classList.add('hidden');
+        if (st.myPowers) btnMirror.textContent = '👁️ آینه ' + toPersianNum(st.myPowers.mirror);
+    } else if (st.phase === 'result') {
+        show('scrResult');
+        renderResult(st);
+    }
+}
+
+function renderResult(st) {
+    const myIdx = st.players.findIndex(function(p) { return p.id === PID; });
+    const w = st.result.winner;
+    winBanner.textContent = w === -1 ? '🤝 مساوی!' : (w === myIdx ? '🏆 بردی!' : '💔 باختی!');
+    const opp = st.players[1 - myIdx] || { name: 'حریف' };
+    let html = '<div class="rrow"><b>ستون</b><b>تو (' + st.players[myIdx].score + ')</b><b>' + opp.name + ' (' + opp.score + ')</b></div>';
+    st.result.detail.forEach(function(d) {
+        html += '<div class="rrow' + (d.golden ? ' gold' : '') + '"><span>' + d.col + (d.golden ? '⭐' : '') + '</span><span>' + d.a + ' (' + toPersianNum(d.pa) + ')</span><span>' + d.b + ' (' + toPersianNum(d.pb) + ')</span></div>';
+    });
+    resultTable.innerHTML = html;
+}
+
+function startPolling() {
+    if (pollTimer) clearInterval(pollTimer);
+    pollTimer = setInterval(async function() {
+        if (!ROOM) return;
+        const r = await api('state?room=' + ROOM + '&pid=' + PID);
+        if (r.ok) onState(r.st);
+    }, 1500);
+}
+
+function bindUI() {
+    document.getElementById('btnCreate').addEventListener('click', async function() {
+        const name = document.getElementById('nameInput').value.trim() || 'بازیکن';
+        const r = await api('create', { pid: PID, name: name, user: USER_ID });
+        if (r.ok) { ROOM = r.room; startPolling(); }
+    });
+
+    document.getElementById('btnJoin').addEventListener('click', async function() {
+        const name = document.getElementById('nameInput').value.trim() || 'بازیکن';
+        const code = document.getElementById('codeInput').value.trim().toUpperCase();
+        if (!code) return;
+        const r = await api('join', { room: code, pid: PID, name: name, user: USER_ID });
+        if (r.ok) { ROOM = code; startPolling(); }
+        else alert(r.error || 'خطا');
+    });
+
+    btnStart.addEventListener('click', async function() {
+        await api('start', { room: ROOM, pid: PID });
+    });
+
+    btnSubmit.addEventListener('click', async function() {
+        await api('answer', { room: ROOM, pid: PID, answers: collectAnswers() });
+    });
+
+    btnMirror.addEventListener('click', async function() {
+        const r = await api('power', { room: ROOM, pid: PID, type: 'mirror' });
+        if (r.ok && r.blocked) alert('🌫️ مه حریف فعال بود! چیزی ندیدی.');
+    });
+
+    document.getElementById('btnAgain').addEventListener('click', async function() {
+        await api('again', { room: ROOM, pid: PID });
+    });
+
+    const urlRoom = new URLSearchParams(window.location.search).get('room');
+    if (urlRoom) document.getElementById('codeInput').value = urlRoom;
+}
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bindUI);
+else bindUI();
+
+function toPersianNum(num) {
+    const p = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+    return num.toString().replace(/\d/g, function(d) { return p[d]; });
+}
+if (window.BaleWebApp) { window.BaleWebApp.ready(); window.BaleWebApp.expand(); }
+</script>
+</body>
+</html>
