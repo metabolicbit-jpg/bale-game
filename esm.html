@@ -25,7 +25,7 @@ html,body { min-height:100%; font-family:'Vazirmatn', Tahoma, sans-serif; backgr
 .card { background:#fff; border-radius:20px; padding:18px 14px; text-align:center; box-shadow:0 4px 16px rgba(0,0,0,.06); cursor:pointer; transition:transform .1s; }
 .card:active { transform:scale(.97); }
 .icon { width:52px; height:52px; border-radius:16px; display:flex; align-items:center; justify-content:center; font-size:26px; margin:0 auto 10px; }
-.c-coral { background:#ffe3e3; } .c-sky { background:#dbeaff; } .c-mint { background:#d8f5ef; } .c-lilac { background:#ece0ff; } .c-sun { background:#fff1c9; }
+.c-coral { background:#ffe3e3; } .c-sky { background:#dbeaff; } .c-mint { background:#d8f5ef; } .c-lilac { background:#ece0ff; }
 .card h3 { font-size:15px; margin-bottom:4px; } .card p { font-size:11px; color:#9a9ab0; }
 .panel { background:#fff; border-radius:20px; padding:20px 16px; box-shadow:0 4px 16px rgba(0,0,0,.06); margin-bottom:12px; }
 .inp { width:100%; border:none; border-radius:12px; padding:12px; margin:6px 0; font-size:16px; text-align:center; font-family:'Vazirmatn'; background:#f2f4fb; color:#333; }
@@ -41,6 +41,7 @@ html,body { min-height:100%; font-family:'Vazirmatn', Tahoma, sans-serif; backgr
 .frow label { width:66px; font-size:13px; font-weight:bold; color:#5b3fa8; }
 .frow input { flex:1; border:none; border-radius:10px; padding:10px; font-size:15px; font-family:'Vazirmatn'; background:#f2f4fb; }
 .row2 { display:flex; gap:8px; }
+.row2 .btn { width:50%; }
 .rrow { display:flex; justify-content:space-between; padding:9px 4px; border-bottom:1px solid #f0f0f5; font-size:13px; }
 .rrow b { color:#ff6b6b; }
 .gold { color:#e6a700; font-weight:bold; }
@@ -55,7 +56,7 @@ html,body { min-height:100%; font-family:'Vazirmatn', Tahoma, sans-serif; backgr
 <div id="scrDash" class="screen">
   <div class="dash-head">
     <div class="logo">📝 نبرد واژه‌ها</div>
-    <div class="chip" id="coinChip">🪙 ...</div>
+    <div class="chip" id="coinChip">🪙 ۰</div>
   </div>
   <div class="grid">
     <div class="card" id="goBattle"><div class="icon c-coral">⚔️</div><h3>نبرد کلمات</h3><p>ساخت اتاق یا ورود</p></div>
@@ -79,7 +80,11 @@ html,body { min-height:100%; font-family:'Vazirmatn', Tahoma, sans-serif; backgr
   <div class="panel" style="text-align:center;">
     <h3 style="color:#9a9ab0;">کد اتاق رو برای حریفت بفرست</h3>
     <div id="roomCode" class="code">----</div>
-    <div id="lobbyPlayers" class="chip" style="display:inline-block;">👤 ۱/۲</div>
+    <div class="row2">
+      <button id="btnCopy" class="btn b-sky">📋 کپی کد</button>
+      <button id="btnShare" class="btn b-mint">📤 ارسال دعوت</button>
+    </div>
+    <div id="lobbyPlayers" class="chip" style="display:inline-block;margin-top:10px;">👤 ۱/۲</div>
     <p id="waitMsg" style="margin-top:10px;font-size:13px;color:#9a9ab0;">منتظر حریف...</p>
     <button id="btnStart" class="btn b-mint hidden">⚔️ شروع نبرد</button>
   </div>
@@ -91,8 +96,8 @@ html,body { min-height:100%; font-family:'Vazirmatn', Tahoma, sans-serif; backgr
   <div id="doneBar" class="done hidden"></div>
   <div class="panel"><div id="formEl"></div></div>
   <div class="row2">
-    <button id="btnMirror" class="btn b-ghost" style="width:48%;">👁️ آینه ۱</button>
-    <button id="btnSubmit" class="btn b-coral" style="width:48%;">✅ ثبت</button>
+    <button id="btnMirror" class="btn b-ghost">👁️ آینه ۱</button>
+    <button id="btnSubmit" class="btn b-coral">✅ ثبت</button>
   </div>
 </div>
 
@@ -111,14 +116,14 @@ html,body { min-height:100%; font-family:'Vazirmatn', Tahoma, sans-serif; backgr
 </div>
 
 <div id="scrShop" class="screen hidden">
-  <div class="panel"><h3 style="margin-bottom:10px;">🛒 فروشگاه قدرت‌ها</h3><div id="shopCoin" class="chip" style="margin-bottom:10px;">🪙 ...</div><div id="shopBody"></div></div>
+  <div class="panel"><h3 style="margin-bottom:10px;">🛒 فروشگاه قدرت‌ها</h3><div id="shopCoin" class="chip" style="margin-bottom:10px;">🪙 ۰</div><div id="shopBody"></div></div>
   <div class="back" data-home>← بازگشت</div>
 </div>
 
 <div id="scrGuide" class="screen hidden">
   <div class="panel">
     <h3 style="margin-bottom:10px;">📖 راهنما</h3>
-    <p style="font-size:13px;line-height:2.2;">⚔️ یه حرف میاد؛ برای ۶ ستون کلمه بنویس که با اون حرف شروع بشه.<br>⭐ ستون طلایی امتیاز ×۲ داره.<br>⚡ هر چی زودتر ثبت کنی، پاداش سرعت بیشتری می‌گیری (هر ثانیه +۲).<br>🤝 کلمهٔ تکراری با حریف = نصف امتیاز.<br>👁️ قدرت آینه: جواب حریف رو ۵ ثانیه ببین.<br>🌫️ مه: خودکار جلوی آینهٔ حریف رو می‌گیره.<br>🏆 امتیاز بیشتر = برد + سکه بیشتر.</p>
+    <p style="font-size:13px;line-height:2.2;">⚔️ یه حرف میاد؛ برای ۶ ستون کلمه بنویس با اون حرف.<br>⭐ ستون طلایی امتیاز ×۲.<br>⚡ ثبت زودتر = پاداش سرعت (هر ثانیه +۲).<br>🤝 کلمهٔ تکراری با حریف = نصف امتیاز.<br>👁️ آینه: جواب حریف رو ۵ ثانیه ببین.<br>🌫️ مه: خودکار جلوی آینهٔ حریف رو می‌گیره.<br>🏆 امتیاز بیشتر = برد + سکه بیشتر.</p>
   </div>
   <div class="back" data-home>← بازگشت</div>
 </div>
@@ -130,6 +135,7 @@ const store = {
     set: function(k, v) { try { localStorage.setItem(k, v); } catch (e) { memStore[k] = v; } }
 };
 const API_URL = 'https://aged-river-6500bale-game-server.metabolicbit.workers.dev';
+const ESM_PAGE = 'https://metabolicbit-jpg.github.io/bale-game/esm.html';
 const USER_ID = new URLSearchParams(window.location.search).get('user') || '';
 const COLS = ['اسم','فامیل','حیوان','میوه','شهر','غذا'];
 const SHOP_ITEMS = [ { id:'mirror', name:'👁️ آینه اضافه', price:50 }, { id:'fog', name:'🌫️ مه اضافه', price:40 } ];
@@ -147,6 +153,39 @@ async function api(path, data) {
         const res = await fetch(API_URL + '/api/esm/' + path, { method: data ? 'POST' : 'GET', headers: { 'Content-Type':'application/json' }, body: data ? JSON.stringify(data) : undefined });
         return await res.json();
     } catch (e) { return { ok:false }; }
+}
+
+function guestCoins(add) {
+    let g = parseInt(store.get('esm_gcoins') || '0');
+    if (add) { g += add; store.set('esm_gcoins', String(g)); }
+    return g;
+}
+
+async function loadCoins() {
+    const chip = document.getElementById('coinChip');
+    if (!USER_ID) { chip.textContent = '🪙 ' + toPersianNum(guestCoins(0)); return; }
+    const r = await api('profile', { user: USER_ID });
+    if (r.ok) { coins = r.coins; chip.textContent = '🪙 ' + toPersianNum(r.coins); }
+    else chip.textContent = '🪙 ۰';
+}
+
+function copyText(t) {
+    try {
+        if (navigator.clipboard) { navigator.clipboard.writeText(t); return true; }
+        const ta = document.createElement('textarea');
+        ta.value = t; document.body.appendChild(ta); ta.select();
+        document.execCommand('copy'); document.body.removeChild(ta);
+        return true;
+    } catch (e) { return false; }
+}
+
+async function shareRoom(code) {
+    const text = '🎮 نبرد واژه‌ها در بله!\n🔑 کد اتاق: ' + code + '\n🤖 اول از بات وارد شو: @game_balebot\n🔗 یا مستقیم: ' + ESM_PAGE + '?room=' + code;
+    if (navigator.share) {
+        try { await navigator.share({ text: text }); return; } catch (e) {}
+    }
+    copyText(text);
+    alert('📋 متن دعوت کپی شد! حالا توی بله برای دوستت بفرست');
 }
 
 function buildForm(golden) {
@@ -167,7 +206,7 @@ function collectAnswers() {
 }
 
 function onState(st) {
-    if (st.phase !== phase) { phase = st.phase; if (st.phase !== 'play') { roundBuilt = false; iSubmitted = false; } resultCounted = false; }
+    if (st.phase !== phase) { phase = st.phase; if (st.phase !== 'play') { roundBuilt = false; iSubmitted = false; document.getElementById('btnSubmit').disabled = false; } resultCounted = false; }
 
     if (st.phase === 'lobby' || st.phase === 'ready') {
         show('lobby');
@@ -178,7 +217,8 @@ function onState(st) {
         const btnStart = document.getElementById('btnStart');
         if (st.phase === 'ready') {
             waitMsg.textContent = '⚔️ حریف آماده‌ست: ' + st.players[1].name;
-            if (host) btnStart.classList.remove('hidden'); else { btnStart.classList.add('hidden'); waitMsg.textContent += ' — منتظر شروع میزبان...'; }
+            if (host) btnStart.classList.remove('hidden');
+            else { btnStart.classList.add('hidden'); waitMsg.textContent += ' — منتظر شروع میزبان...'; }
         } else { waitMsg.textContent = 'منتظر حریف...'; btnStart.classList.add('hidden'); }
     }
     else if (st.phase === 'play') {
@@ -208,13 +248,19 @@ function renderResult(st) {
         html += '<div class="rrow' + (d.golden ? ' gold' : '') + '"><span>' + d.col + (d.golden ? '⭐' : '') + '</span><span>' + d.a + ' (' + toPersianNum(d.pa) + ')</span><span>' + d.b + ' (' + toPersianNum(d.pb) + ')</span></div>';
     });
     html += '<div class="rrow"><span>⚡ پاداش سرعت</span><span>+' + toPersianNum(me.timeBonus || 0) + '</span><span>+' + toPersianNum(opp.timeBonus || 0) + '</span></div>';
-    if (USER_ID && me.coinsWon) html += '<div class="rrow"><span>🪙 سکه</span><span>+' + toPersianNum(me.coinsWon) + '</span><span></span></div>';
+    let myCoins = me.coinsWon || 0;
+    if (!USER_ID && !resultCounted) {
+        myCoins = (w === myIdx ? 20 : (w === -1 ? 10 : 0)) + Math.floor(me.score / 5);
+        guestCoins(myCoins);
+    }
+    if (myCoins) html += '<div class="rrow"><span>🪙 سکه</span><span>+' + toPersianNum(myCoins) + '</span><span></span></div>';
     document.getElementById('resultTable').innerHTML = html;
     if (!resultCounted) {
         resultCounted = true;
         const loc = JSON.parse(store.get('esm_local') || '{"games":0,"wins":0}');
         loc.games++; if (w === myIdx) loc.wins++;
         store.set('esm_local', JSON.stringify(loc));
+        loadCoins();
     }
 }
 
@@ -224,24 +270,24 @@ function startPolling() {
         if (!ROOM) return;
         const r = await api('state?room=' + ROOM + '&pid=' + PID);
         if (r.ok) onState(r.st);
+        else if (r.error === 'اتاق پیدا نشد') {
+            store.set('esm_session', '');
+            ROOM = '';
+            show('dash');
+            loadCoins();
+        }
     }, 1500);
-}
-
-async function loadCoins() {
-    if (!USER_ID) { document.getElementById('coinChip').textContent = '🪙 مهمان'; return; }
-    const r = await api('profile', { user: USER_ID });
-    if (r.ok) { coins = r.coins; document.getElementById('coinChip').textContent = '🪙 ' + toPersianNum(r.coins); }
 }
 
 async function loadProfile() {
     const body = document.getElementById('profBody');
     const loc = JSON.parse(store.get('esm_local') || '{"games":0,"wins":0}');
     if (!USER_ID) {
-        body.innerHTML = '<div class="rrow"><span>🎮 بازی‌ها (روی این دستگاه)</span><b>' + toPersianNum(loc.games) + '</b></div><div class="rrow"><span>🏆 بردها</span><b>' + toPersianNum(loc.wins) + '</b></div><p style="margin-top:10px;font-size:12px;color:#9a9ab0;">برای آمار کامل و سکه، از دکمهٔ «نبرد واژه‌ها» داخل بات وارد شو.</p>';
+        body.innerHTML = '<div class="rrow"><span>🪙 سکه (این دستگاه)</span><b>' + toPersianNum(guestCoins(0)) + '</b></div><div class="rrow"><span>🎮 بازی‌ها</span><b>' + toPersianNum(loc.games) + '</b></div><div class="rrow"><span>🏆 بردها</span><b>' + toPersianNum(loc.wins) + '</b></div><p style="margin-top:10px;font-size:12px;color:#9a9ab0;">برای سکه و آمار دائمی، از دکمهٔ «نبرد واژه‌ها» داخل بات وارد شو.</p>';
         return;
     }
     const r = await api('profile', { user: USER_ID });
-    if (!r.ok) { body.innerHTML = 'خطا در دریافت'; return; }
+    if (!r.ok) { body.innerHTML = '<p>خطا در دریافت — بعداً امتحان کن</p>'; return; }
     const e = r.esm;
     body.innerHTML =
         '<div class="rrow"><span>🪙 سکه</span><b>' + toPersianNum(r.coins) + '</b></div>' +
@@ -253,9 +299,9 @@ async function loadProfile() {
 }
 
 async function loadShop() {
-    document.getElementById('shopCoin').textContent = USER_ID && coins !== null ? '🪙 ' + toPersianNum(coins) : '🪙 مهمان';
+    document.getElementById('shopCoin').textContent = '🪙 ' + toPersianNum(USER_ID ? (coins || 0) : guestCoins(0));
     const body = document.getElementById('shopBody');
-    if (!USER_ID) { body.innerHTML = '<p style="font-size:13px;color:#9a9ab0;">برای خرید، از دکمهٔ «نبرد واژه‌ها» داخل بات وارد شو تا سکه‌هات وصل بشن.</p>'; return; }
+    if (!USER_ID) { body.innerHTML = '<p style="font-size:13px;color:#9a9ab0;">برای خرید واقعی، از دکمهٔ «نبرد واژه‌ها» داخل بات وارد شو تا سکه‌هات وصل بشن.</p>'; return; }
     let html = '';
     SHOP_ITEMS.forEach(function(it) {
         html += '<div class="shop-item"><div><b>' + it.name + '</b><div style="font-size:12px;color:#9a9ab0;">' + toPersianNum(it.price) + ' سکه</div></div><button class="btn b-sky" data-buy="' + it.id + '">خرید</button></div>';
@@ -265,7 +311,7 @@ async function loadShop() {
         btn.addEventListener('click', async function() {
             const r = await api('shop', { user: USER_ID, item: btn.dataset.buy });
             if (r.ok) { coins = r.coins; alert('✅ خرید موفق!'); loadShop(); loadCoins(); }
-            else alert(r.error || 'خطا');
+            else alert(r.error || '❌ خرید ناموفق');
         });
     });
 }
@@ -280,15 +326,21 @@ function bindUI() {
     document.getElementById('btnCreate').addEventListener('click', async function() {
         const name = document.getElementById('nameInput').value.trim() || 'بازیکن';
         const r = await api('create', { pid: PID, name: name, user: USER_ID });
-        if (r.ok) { ROOM = r.room; startPolling(); } else alert('❌ ساخت اتاق ناموفق');
+        if (r.ok) { ROOM = r.room; store.set('esm_session', JSON.stringify({ room: ROOM, name: name })); startPolling(); }
+        else alert('❌ ساخت اتاق ناموفق — اینترنت رو چک کن');
     });
     document.getElementById('btnJoin').addEventListener('click', async function() {
         const name = document.getElementById('nameInput').value.trim() || 'بازیکن';
         const code = document.getElementById('codeInput').value.trim().toUpperCase();
         if (!code) return;
         const r = await api('join', { room: code, pid: PID, name: name, user: USER_ID });
-        if (r.ok) { ROOM = code; startPolling(); } else alert(r.error || 'خطا');
+        if (r.ok) { ROOM = r.room || code; store.set('esm_session', JSON.stringify({ room: ROOM, name: name })); startPolling(); }
+        else alert(r.error || 'خطا');
     });
+    document.getElementById('btnCopy').addEventListener('click', function() {
+        if (copyText(ROOM)) alert('📋 کد کپی شد: ' + ROOM);
+    });
+    document.getElementById('btnShare').addEventListener('click', function() { shareRoom(ROOM); });
     document.getElementById('btnStart').addEventListener('click', function() { api('start', { room: ROOM, pid: PID }); });
     document.getElementById('btnSubmit').addEventListener('click', async function() {
         if (iSubmitted) return;
@@ -299,7 +351,7 @@ function bindUI() {
             document.getElementById('doneBar').classList.remove('hidden');
             document.getElementById('formEl').querySelectorAll('input').forEach(function(i) { i.disabled = true; });
             document.getElementById('btnSubmit').disabled = true;
-        }
+        } else alert('❌ ثبت ناموفق');
     });
     document.getElementById('btnMirror').addEventListener('click', async function() {
         const r = await api('power', { room: ROOM, pid: PID, type: 'mirror' });
@@ -309,6 +361,14 @@ function bindUI() {
 
     const urlRoom = new URLSearchParams(window.location.search).get('room');
     if (urlRoom) document.getElementById('codeInput').value = urlRoom;
+
+    // بازیابی جلسه بعد از رفرش/خروج
+    const sess = JSON.parse(store.get('esm_session') || 'null');
+    if (sess && sess.room) {
+        ROOM = sess.room;
+        if (sess.name) document.getElementById('nameInput').value = sess.name;
+        startPolling();
+    }
     loadCoins();
 }
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bindUI);
