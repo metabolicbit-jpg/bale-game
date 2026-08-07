@@ -9,86 +9,118 @@
 window.addEventListener('error', function(e) {
     var d = document.createElement('div');
     d.textContent = '⚠️ خطا: ' + e.message;
-    d.style.cssText = 'position:fixed;top:5px;left:5px;right:5px;z-index:99;background:#7f1d1d;color:#fff;padding:8px;font-size:12px;border-radius:8px;text-align:center;';
+    d.style.cssText = 'position:fixed;top:5px;left:5px;right:5px;z-index:99;background:#d32f2f;color:#fff;padding:8px;font-size:12px;border-radius:8px;text-align:center;';
     document.body.appendChild(d);
 });
 </script>
 <style>
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-html,body { width:100%; height:100%; overflow:auto; font-family:'Vazirmatn', Tahoma, sans-serif; background:linear-gradient(160deg,#1a1030,#0a1228); color:#eee; }
+html,body { min-height:100%; font-family:'Vazirmatn', Tahoma, sans-serif; background:linear-gradient(160deg,#fff6e9,#eef4ff); color:#3b3b4f; }
 .hidden { display:none !important; }
-.screen { min-height:100vh; display:flex; align-items:center; justify-content:center; padding:16px; }
-.card { background:rgba(255,255,255,.06); border:1px solid rgba(255,214,110,.25); border-radius:20px; padding:22px 18px; width:100%; max-width:380px; text-align:center; }
-.wide { max-width:460px; }
-.emoji { font-size:52px; }
-h1 { font-size:24px; margin:8px 0; color:#ffd66e; }
-p { font-size:13px; line-height:1.9; color:#cbd5e1; margin-bottom:10px; }
-.inp { width:100%; border:none; border-radius:12px; padding:12px; margin:6px 0; font-size:16px; text-align:center; font-family:'Vazirmatn'; background:rgba(255,255,255,.1); color:#fff; }
-.inp::placeholder { color:#94a3b8; }
-.code { font-size:40px; letter-spacing:8px; font-weight:bold; color:#ffd66e; background:rgba(255,214,110,.12); border-radius:14px; padding:10px; margin:10px 0; }
-.btn { display:block; width:100%; border:none; border-radius:14px; padding:13px; margin-top:8px; font-size:16px; font-weight:bold; cursor:pointer; background:linear-gradient(90deg,#b8860b,#ffd66e); color:#241a05; font-family:'Vazirmatn'; }
-.btn-ghost { background:rgba(255,255,255,.12); color:#eee; }
-.small { width:48%; display:inline-block; }
-.row { display:flex; justify-content:space-between; gap:8px; margin-top:10px; }
+.screen { min-height:100vh; padding:16px; max-width:430px; margin:0 auto; }
+.dash-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; }
+.logo { font-size:22px; font-weight:bold; color:#ff6b6b; }
+.chip { background:#fff; border-radius:14px; padding:8px 14px; font-size:13px; font-weight:bold; box-shadow:0 3px 10px rgba(0,0,0,.06); }
+.grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.card { background:#fff; border-radius:20px; padding:18px 14px; text-align:center; box-shadow:0 4px 16px rgba(0,0,0,.06); cursor:pointer; transition:transform .1s; }
+.card:active { transform:scale(.97); }
+.icon { width:52px; height:52px; border-radius:16px; display:flex; align-items:center; justify-content:center; font-size:26px; margin:0 auto 10px; }
+.c-coral { background:#ffe3e3; } .c-sky { background:#dbeaff; } .c-mint { background:#d8f5ef; } .c-lilac { background:#ece0ff; } .c-sun { background:#fff1c9; }
+.card h3 { font-size:15px; margin-bottom:4px; } .card p { font-size:11px; color:#9a9ab0; }
+.panel { background:#fff; border-radius:20px; padding:20px 16px; box-shadow:0 4px 16px rgba(0,0,0,.06); margin-bottom:12px; }
+.inp { width:100%; border:none; border-radius:12px; padding:12px; margin:6px 0; font-size:16px; text-align:center; font-family:'Vazirmatn'; background:#f2f4fb; color:#333; }
+.btn { display:block; width:100%; border:none; border-radius:14px; padding:13px; margin-top:8px; font-size:16px; font-weight:bold; cursor:pointer; font-family:'Vazirmatn'; color:#fff; }
+.b-coral { background:#ff6b6b; } .b-sky { background:#4d96ff; } .b-mint { background:#2ec4b6; } .b-ghost { background:#eceff5; color:#555; }
+.code { font-size:38px; letter-spacing:8px; font-weight:bold; color:#ff6b6b; background:#ffe3e3; border-radius:14px; padding:10px; text-align:center; margin:10px 0; }
 .topbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
-.letter { font-size:22px; font-weight:bold; color:#ffd66e; background:rgba(255,214,110,.15); padding:6px 16px; border-radius:12px; }
-.timer { font-size:26px; font-weight:bold; color:#7dd3fc; }
-.peek { background:rgba(124,58,237,.85); border-radius:12px; padding:8px; font-size:13px; margin-bottom:8px; }
-.form { display:flex; flex-direction:column; gap:8px; width:100%; max-width:380px; }
-.frow { display:flex; align-items:center; gap:8px; }
-.frow label { width:70px; font-size:14px; font-weight:bold; color:#ffd66e; text-align:right; }
-.frow input { flex:1; border:none; border-radius:10px; padding:10px; font-size:15px; font-family:'Vazirmatn'; background:rgba(255,255,255,.1); color:#fff; }
-.rrow { display:flex; justify-content:space-between; padding:8px 4px; border-bottom:1px solid rgba(255,255,255,.1); font-size:13px; }
-.rrow b { color:#ffd66e; }
-.gold { color:#ffd66e; }
+.letter { font-size:20px; font-weight:bold; color:#fff; background:#4d96ff; padding:8px 18px; border-radius:14px; }
+.timer { font-size:24px; font-weight:bold; color:#ff6b6b; }
+.peek { background:#ece0ff; border-radius:12px; padding:8px; font-size:13px; margin-bottom:8px; color:#5b3fa8; }
+.done { background:#d8f5ef; border-radius:12px; padding:10px; font-size:13px; margin-bottom:8px; color:#0f7a6a; text-align:center; }
+.frow { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+.frow label { width:66px; font-size:13px; font-weight:bold; color:#5b3fa8; }
+.frow input { flex:1; border:none; border-radius:10px; padding:10px; font-size:15px; font-family:'Vazirmatn'; background:#f2f4fb; }
+.row2 { display:flex; gap:8px; }
+.rrow { display:flex; justify-content:space-between; padding:9px 4px; border-bottom:1px solid #f0f0f5; font-size:13px; }
+.rrow b { color:#ff6b6b; }
+.gold { color:#e6a700; font-weight:bold; }
+.banner { text-align:center; font-size:26px; font-weight:bold; margin-bottom:12px; }
+.shop-item { display:flex; justify-content:space-between; align-items:center; background:#f8f9fe; border-radius:14px; padding:12px; margin-bottom:10px; }
+.shop-item .btn { width:auto; margin:0; padding:9px 16px; font-size:13px; }
+.back { text-align:center; margin-top:8px; font-size:13px; color:#4d96ff; cursor:pointer; }
 </style>
 </head>
 <body>
 
-<div id="scrHome" class="screen">
-  <div class="card">
-    <div class="emoji">📝</div>
-    <h1>نبرد واژه‌ها</h1>
-    <p>اسم‌فامیل آنلاین در بله — با حریف زنده، ستون طلایی و قدرت‌های جادویی!</p>
-    <input id="nameInput" class="inp" placeholder="اسمت" maxlength="12">
-    <button id="btnCreate" class="btn">🏠 ساخت اتاق</button>
-    <input id="codeInput" class="inp" placeholder="کد اتاق (مثلاً AB12)" maxlength="4">
-    <button id="btnJoin" class="btn btn-ghost">🚪 ورود به اتاق</button>
+<div id="scrDash" class="screen">
+  <div class="dash-head">
+    <div class="logo">📝 نبرد واژه‌ها</div>
+    <div class="chip" id="coinChip">🪙 ...</div>
   </div>
+  <div class="grid">
+    <div class="card" id="goBattle"><div class="icon c-coral">⚔️</div><h3>نبرد کلمات</h3><p>ساخت اتاق یا ورود</p></div>
+    <div class="card" id="goProfile"><div class="icon c-sky">👤</div><h3>پروفایل من</h3><p>آمار و افتخارات</p></div>
+    <div class="card" id="goShop"><div class="icon c-mint">🛒</div><h3>فروشگاه قدرت</h3><p>آینه و مه</p></div>
+    <div class="card" id="goGuide"><div class="icon c-lilac">📖</div><h3>راهنما</h3><p>قوانین بازی</p></div>
+  </div>
+</div>
+
+<div id="scrBattle" class="screen hidden">
+  <div class="panel">
+    <input id="nameInput" class="inp" placeholder="اسمت" maxlength="12">
+    <button id="btnCreate" class="btn b-coral">🏠 ساخت اتاق جدید</button>
+    <input id="codeInput" class="inp" placeholder="کد اتاق (مثلاً AB12)" maxlength="4">
+    <button id="btnJoin" class="btn b-sky">🚪 ورود به اتاق</button>
+  </div>
+  <div class="back" data-home>← بازگشت به داشبورد</div>
 </div>
 
 <div id="scrLobby" class="screen hidden">
-  <div class="card">
-    <h1>کد اتاق</h1>
+  <div class="panel" style="text-align:center;">
+    <h3 style="color:#9a9ab0;">کد اتاق رو برای حریفت بفرست</h3>
     <div id="roomCode" class="code">----</div>
-    <p>کد رو برای دوستت بفرست تا وارد بشه</p>
-    <div id="lobbyPlayers" class="code" style="font-size:20px;letter-spacing:0;">👤 ۱/۲</div>
-    <p id="waitMsg">منتظر حریف...</p>
-    <button id="btnStart" class="btn hidden">⚔️ شروع نبرد</button>
+    <div id="lobbyPlayers" class="chip" style="display:inline-block;">👤 ۱/۲</div>
+    <p id="waitMsg" style="margin-top:10px;font-size:13px;color:#9a9ab0;">منتظر حریف...</p>
+    <button id="btnStart" class="btn b-mint hidden">⚔️ شروع نبرد</button>
   </div>
 </div>
 
-<div id="scrPlay" class="screen hidden" style="align-items:flex-start;">
-  <div style="width:100%;max-width:400px;">
-    <div class="topbar">
-      <span id="letterEl" class="letter">حرف: -</span>
-      <span id="timerEl" class="timer">۹۰</span>
-    </div>
-    <div id="peekBar" class="peek hidden"></div>
-    <div id="formEl" class="form"></div>
-    <div class="row">
-      <button id="btnMirror" class="btn small">👁️ آینه ۱</button>
-      <button id="btnSubmit" class="btn small">✅ ثبت</button>
-    </div>
+<div id="scrPlay" class="screen hidden">
+  <div class="topbar"><span id="letterEl" class="letter">حرف: -</span><span id="timerEl" class="timer">۹۰</span></div>
+  <div id="peekBar" class="peek hidden"></div>
+  <div id="doneBar" class="done hidden"></div>
+  <div class="panel"><div id="formEl"></div></div>
+  <div class="row2">
+    <button id="btnMirror" class="btn b-ghost" style="width:48%;">👁️ آینه ۱</button>
+    <button id="btnSubmit" class="btn b-coral" style="width:48%;">✅ ثبت</button>
   </div>
 </div>
 
 <div id="scrResult" class="screen hidden">
-  <div class="card wide">
-    <h1 id="winBanner">نتیجه</h1>
+  <div class="panel">
+    <div id="winBanner" class="banner">نتیجه</div>
     <div id="resultTable"></div>
-    <button id="btnAgain" class="btn">🔄 یه دست دیگه</button>
+    <button id="btnAgain" class="btn b-mint">🔄 یه دست دیگه</button>
+    <div class="back" data-home>← داشبورد</div>
   </div>
+</div>
+
+<div id="scrProfile" class="screen hidden">
+  <div class="panel"><h3 style="margin-bottom:10px;">👤 پروفایل من</h3><div id="profBody"></div></div>
+  <div class="back" data-home>← بازگشت</div>
+</div>
+
+<div id="scrShop" class="screen hidden">
+  <div class="panel"><h3 style="margin-bottom:10px;">🛒 فروشگاه قدرت‌ها</h3><div id="shopCoin" class="chip" style="margin-bottom:10px;">🪙 ...</div><div id="shopBody"></div></div>
+  <div class="back" data-home>← بازگشت</div>
+</div>
+
+<div id="scrGuide" class="screen hidden">
+  <div class="panel">
+    <h3 style="margin-bottom:10px;">📖 راهنما</h3>
+    <p style="font-size:13px;line-height:2.2;">⚔️ یه حرف میاد؛ برای ۶ ستون کلمه بنویس که با اون حرف شروع بشه.<br>⭐ ستون طلایی امتیاز ×۲ داره.<br>⚡ هر چی زودتر ثبت کنی، پاداش سرعت بیشتری می‌گیری (هر ثانیه +۲).<br>🤝 کلمهٔ تکراری با حریف = نصف امتیاز.<br>👁️ قدرت آینه: جواب حریف رو ۵ ثانیه ببین.<br>🌫️ مه: خودکار جلوی آینهٔ حریف رو می‌گیره.<br>🏆 امتیاز بیشتر = برد + سکه بیشتر.</p>
+  </div>
+  <div class="back" data-home>← بازگشت</div>
 </div>
 
 <script>
@@ -99,47 +131,26 @@ const store = {
 };
 const API_URL = 'https://aged-river-6500bale-game-server.metabolicbit.workers.dev';
 const USER_ID = new URLSearchParams(window.location.search).get('user') || '';
-const COLS = ['اسم', 'فامیل', 'حیوان', 'میوه', 'شهر', 'غذا'];
+const COLS = ['اسم','فامیل','حیوان','میوه','شهر','غذا'];
+const SHOP_ITEMS = [ { id:'mirror', name:'👁️ آینه اضافه', price:50 }, { id:'fog', name:'🌫️ مه اضافه', price:40 } ];
 
 let PID = store.get('esm_pid');
-if (!PID) { PID = 'p' + Math.random().toString(36).slice(2, 8); store.set('esm_pid', PID); }
+if (!PID) { PID = 'p' + Math.random().toString(36).slice(2,8); store.set('esm_pid', PID); }
 
-let ROOM = '', phase = '', roundBuilt = false, pollTimer = null;
+let ROOM = '', phase = '', roundBuilt = false, iSubmitted = false, pollTimer = null, coins = null, resultCounted = false;
 
-const scrHome = document.getElementById('scrHome');
-const scrLobby = document.getElementById('scrLobby');
-const scrPlay = document.getElementById('scrPlay');
-const scrResult = document.getElementById('scrResult');
-const roomCodeEl = document.getElementById('roomCode');
-const lobbyPlayersEl = document.getElementById('lobbyPlayers');
-const waitMsg = document.getElementById('waitMsg');
-const btnStart = document.getElementById('btnStart');
-const letterEl = document.getElementById('letterEl');
-const timerEl = document.getElementById('timerEl');
-const peekBar = document.getElementById('peekBar');
-const formEl = document.getElementById('formEl');
-const btnMirror = document.getElementById('btnMirror');
-const btnSubmit = document.getElementById('btnSubmit');
-const winBanner = document.getElementById('winBanner');
-const resultTable = document.getElementById('resultTable');
-
-function show(id) {
-    [scrHome, scrLobby, scrPlay, scrResult].forEach(function(s) { s.classList.add('hidden'); });
-    document.getElementById(id).classList.remove('hidden');
-}
+const screens = { dash:document.getElementById('scrDash'), battle:document.getElementById('scrBattle'), lobby:document.getElementById('scrLobby'), play:document.getElementById('scrPlay'), result:document.getElementById('scrResult'), profile:document.getElementById('scrProfile'), shop:document.getElementById('scrShop'), guide:document.getElementById('scrGuide') };
+function show(name) { for (const k in screens) screens[k].classList.add('hidden'); screens[name].classList.remove('hidden'); }
 
 async function api(path, data) {
     try {
-        const res = await fetch(API_URL + '/api/esm/' + path, {
-            method: data ? 'POST' : 'GET',
-            headers: { 'Content-Type': 'application/json' },
-            body: data ? JSON.stringify(data) : undefined
-        });
+        const res = await fetch(API_URL + '/api/esm/' + path, { method: data ? 'POST' : 'GET', headers: { 'Content-Type':'application/json' }, body: data ? JSON.stringify(data) : undefined });
         return await res.json();
-    } catch (e) { return { ok: false }; }
+    } catch (e) { return { ok:false }; }
 }
 
 function buildForm(golden) {
+    const formEl = document.getElementById('formEl');
     formEl.innerHTML = '';
     COLS.forEach(function(col, i) {
         const row = document.createElement('div');
@@ -149,58 +160,62 @@ function buildForm(golden) {
     });
     roundBuilt = true;
 }
-
 function collectAnswers() {
     const out = {};
-    formEl.querySelectorAll('input').forEach(function(inp) { out[inp.dataset.col] = inp.value.trim(); });
+    document.getElementById('formEl').querySelectorAll('input').forEach(function(inp) { out[inp.dataset.col] = inp.value.trim(); });
     return out;
 }
 
 function onState(st) {
-    if (st.phase !== phase) { phase = st.phase; if (st.phase !== 'play') roundBuilt = false; }
+    if (st.phase !== phase) { phase = st.phase; if (st.phase !== 'play') { roundBuilt = false; iSubmitted = false; } resultCounted = false; }
 
     if (st.phase === 'lobby' || st.phase === 'ready') {
-        show('scrLobby');
-        roomCodeEl.textContent = st.code;
-        lobbyPlayersEl.textContent = '👤 ' + toPersianNum(st.players.length) + '/۲';
+        show('lobby');
+        document.getElementById('roomCode').textContent = st.code;
+        document.getElementById('lobbyPlayers').textContent = '👤 ' + toPersianNum(st.players.length) + '/۲';
         const host = st.players[0] && st.players[0].id === PID;
+        const waitMsg = document.getElementById('waitMsg');
+        const btnStart = document.getElementById('btnStart');
         if (st.phase === 'ready') {
             waitMsg.textContent = '⚔️ حریف آماده‌ست: ' + st.players[1].name;
-            if (host) btnStart.classList.remove('hidden');
-            else { btnStart.classList.add('hidden'); waitMsg.textContent += ' — منتظر شروع میزبان...'; }
-        } else {
-            waitMsg.textContent = 'منتظر حریف...';
-            btnStart.classList.add('hidden');
-        }
-    } else if (st.phase === 'play') {
-        show('scrPlay');
-        if (!roundBuilt) buildForm(st.golden);
-        letterEl.textContent = 'حرف: ' + st.letter;
-        const left = Math.max(0, Math.ceil((st.endsAt - Date.now()) / 1000));
-        timerEl.textContent = toPersianNum(left);
-        if (st.peek) {
-            const vals = [];
-            for (const k in st.peek) if (st.peek[k]) vals.push(k + ': ' + st.peek[k]);
-            peekBar.textContent = '👁️ ' + (vals.join('، ') || 'هنوز خالی!');
-            peekBar.classList.remove('hidden');
-        } else peekBar.classList.add('hidden');
-        if (st.myPowers) btnMirror.textContent = '👁️ آینه ' + toPersianNum(st.myPowers.mirror);
-    } else if (st.phase === 'result') {
-        show('scrResult');
-        renderResult(st);
+            if (host) btnStart.classList.remove('hidden'); else { btnStart.classList.add('hidden'); waitMsg.textContent += ' — منتظر شروع میزبان...'; }
+        } else { waitMsg.textContent = 'منتظر حریف...'; btnStart.classList.add('hidden'); }
     }
+    else if (st.phase === 'play') {
+        show('play');
+        if (!roundBuilt) buildForm(st.golden);
+        document.getElementById('letterEl').textContent = 'حرف: ' + st.letter;
+        const left = Math.max(0, Math.ceil((st.endsAt - Date.now()) / 1000));
+        document.getElementById('timerEl').textContent = toPersianNum(left);
+        const peekBar = document.getElementById('peekBar');
+        if (st.peek) { const vals = []; for (const k in st.peek) if (st.peek[k]) vals.push(k + ': ' + st.peek[k]); peekBar.textContent = '👁️ ' + (vals.join('، ') || 'هنوز خالی!'); peekBar.classList.remove('hidden'); }
+        else peekBar.classList.add('hidden');
+        if (st.myPowers) document.getElementById('btnMirror').textContent = '👁️ آینه ' + toPersianNum(st.myPowers.mirror);
+        if (iSubmitted) document.getElementById('doneBar').classList.remove('hidden');
+        else document.getElementById('doneBar').classList.add('hidden');
+    }
+    else if (st.phase === 'result') { show('result'); renderResult(st); }
 }
 
 function renderResult(st) {
     const myIdx = st.players.findIndex(function(p) { return p.id === PID; });
     const w = st.result.winner;
-    winBanner.textContent = w === -1 ? '🤝 مساوی!' : (w === myIdx ? '🏆 بردی!' : '💔 باختی!');
-    const opp = st.players[1 - myIdx] || { name: 'حریف' };
-    let html = '<div class="rrow"><b>ستون</b><b>تو (' + st.players[myIdx].score + ')</b><b>' + opp.name + ' (' + opp.score + ')</b></div>';
+    document.getElementById('winBanner').textContent = w === -1 ? '🤝 مساوی!' : (w === myIdx ? '🏆 بردی!' : '💔 باختی!');
+    const me = st.players[myIdx] || { score: 0, timeBonus: 0, coinsWon: 0 };
+    const opp = st.players[1 - myIdx] || { name: 'حریف', score: 0, timeBonus: 0 };
+    let html = '<div class="rrow"><b>ستون</b><b>تو (' + toPersianNum(me.score) + ')</b><b>' + opp.name + ' (' + toPersianNum(opp.score) + ')</b></div>';
     st.result.detail.forEach(function(d) {
         html += '<div class="rrow' + (d.golden ? ' gold' : '') + '"><span>' + d.col + (d.golden ? '⭐' : '') + '</span><span>' + d.a + ' (' + toPersianNum(d.pa) + ')</span><span>' + d.b + ' (' + toPersianNum(d.pb) + ')</span></div>';
     });
-    resultTable.innerHTML = html;
+    html += '<div class="rrow"><span>⚡ پاداش سرعت</span><span>+' + toPersianNum(me.timeBonus || 0) + '</span><span>+' + toPersianNum(opp.timeBonus || 0) + '</span></div>';
+    if (USER_ID && me.coinsWon) html += '<div class="rrow"><span>🪙 سکه</span><span>+' + toPersianNum(me.coinsWon) + '</span><span></span></div>';
+    document.getElementById('resultTable').innerHTML = html;
+    if (!resultCounted) {
+        resultCounted = true;
+        const loc = JSON.parse(store.get('esm_local') || '{"games":0,"wins":0}');
+        loc.games++; if (w === myIdx) loc.wins++;
+        store.set('esm_local', JSON.stringify(loc));
+    }
 }
 
 function startPolling() {
@@ -212,41 +227,89 @@ function startPolling() {
     }, 1500);
 }
 
+async function loadCoins() {
+    if (!USER_ID) { document.getElementById('coinChip').textContent = '🪙 مهمان'; return; }
+    const r = await api('profile', { user: USER_ID });
+    if (r.ok) { coins = r.coins; document.getElementById('coinChip').textContent = '🪙 ' + toPersianNum(r.coins); }
+}
+
+async function loadProfile() {
+    const body = document.getElementById('profBody');
+    const loc = JSON.parse(store.get('esm_local') || '{"games":0,"wins":0}');
+    if (!USER_ID) {
+        body.innerHTML = '<div class="rrow"><span>🎮 بازی‌ها (روی این دستگاه)</span><b>' + toPersianNum(loc.games) + '</b></div><div class="rrow"><span>🏆 بردها</span><b>' + toPersianNum(loc.wins) + '</b></div><p style="margin-top:10px;font-size:12px;color:#9a9ab0;">برای آمار کامل و سکه، از دکمهٔ «نبرد واژه‌ها» داخل بات وارد شو.</p>';
+        return;
+    }
+    const r = await api('profile', { user: USER_ID });
+    if (!r.ok) { body.innerHTML = 'خطا در دریافت'; return; }
+    const e = r.esm;
+    body.innerHTML =
+        '<div class="rrow"><span>🪙 سکه</span><b>' + toPersianNum(r.coins) + '</b></div>' +
+        '<div class="rrow"><span>🎮 بازی‌ها</span><b>' + toPersianNum(e.games) + '</b></div>' +
+        '<div class="rrow"><span>🏆 بردها</span><b>' + toPersianNum(e.wins) + '</b></div>' +
+        '<div class="rrow"><span>🏅 مجموع امتیاز</span><b>' + toPersianNum(e.total) + '</b></div>' +
+        '<div class="rrow"><span>👁️ آینه‌های ذخیره</span><b>' + toPersianNum(e.inv.mirror) + '</b></div>' +
+        '<div class="rrow"><span>🌫️ مه‌های ذخیره</span><b>' + toPersianNum(e.inv.fog) + '</b></div>';
+}
+
+async function loadShop() {
+    document.getElementById('shopCoin').textContent = USER_ID && coins !== null ? '🪙 ' + toPersianNum(coins) : '🪙 مهمان';
+    const body = document.getElementById('shopBody');
+    if (!USER_ID) { body.innerHTML = '<p style="font-size:13px;color:#9a9ab0;">برای خرید، از دکمهٔ «نبرد واژه‌ها» داخل بات وارد شو تا سکه‌هات وصل بشن.</p>'; return; }
+    let html = '';
+    SHOP_ITEMS.forEach(function(it) {
+        html += '<div class="shop-item"><div><b>' + it.name + '</b><div style="font-size:12px;color:#9a9ab0;">' + toPersianNum(it.price) + ' سکه</div></div><button class="btn b-sky" data-buy="' + it.id + '">خرید</button></div>';
+    });
+    body.innerHTML = html;
+    body.querySelectorAll('[data-buy]').forEach(function(btn) {
+        btn.addEventListener('click', async function() {
+            const r = await api('shop', { user: USER_ID, item: btn.dataset.buy });
+            if (r.ok) { coins = r.coins; alert('✅ خرید موفق!'); loadShop(); loadCoins(); }
+            else alert(r.error || 'خطا');
+        });
+    });
+}
+
 function bindUI() {
+    document.getElementById('goBattle').addEventListener('click', function() { show('battle'); });
+    document.getElementById('goProfile').addEventListener('click', function() { show('profile'); loadProfile(); });
+    document.getElementById('goShop').addEventListener('click', function() { show('shop'); loadShop(); });
+    document.getElementById('goGuide').addEventListener('click', function() { show('guide'); });
+    document.querySelectorAll('[data-home]').forEach(function(el) { el.addEventListener('click', function() { show('dash'); loadCoins(); }); });
+
     document.getElementById('btnCreate').addEventListener('click', async function() {
         const name = document.getElementById('nameInput').value.trim() || 'بازیکن';
         const r = await api('create', { pid: PID, name: name, user: USER_ID });
-        if (r.ok) { ROOM = r.room; startPolling(); }
+        if (r.ok) { ROOM = r.room; startPolling(); } else alert('❌ ساخت اتاق ناموفق');
     });
-
     document.getElementById('btnJoin').addEventListener('click', async function() {
         const name = document.getElementById('nameInput').value.trim() || 'بازیکن';
         const code = document.getElementById('codeInput').value.trim().toUpperCase();
         if (!code) return;
         const r = await api('join', { room: code, pid: PID, name: name, user: USER_ID });
-        if (r.ok) { ROOM = code; startPolling(); }
-        else alert(r.error || 'خطا');
+        if (r.ok) { ROOM = code; startPolling(); } else alert(r.error || 'خطا');
     });
-
-    btnStart.addEventListener('click', async function() {
-        await api('start', { room: ROOM, pid: PID });
+    document.getElementById('btnStart').addEventListener('click', function() { api('start', { room: ROOM, pid: PID }); });
+    document.getElementById('btnSubmit').addEventListener('click', async function() {
+        if (iSubmitted) return;
+        const r = await api('answer', { room: ROOM, pid: PID, answers: collectAnswers() });
+        if (r.ok) {
+            iSubmitted = true;
+            document.getElementById('doneBar').textContent = '✅ ثبت شد! ⚡ پاداش سرعت: +' + toPersianNum(r.timeBonus) + ' — منتظر حریف...';
+            document.getElementById('doneBar').classList.remove('hidden');
+            document.getElementById('formEl').querySelectorAll('input').forEach(function(i) { i.disabled = true; });
+            document.getElementById('btnSubmit').disabled = true;
+        }
     });
-
-    btnSubmit.addEventListener('click', async function() {
-        await api('answer', { room: ROOM, pid: PID, answers: collectAnswers() });
-    });
-
-    btnMirror.addEventListener('click', async function() {
+    document.getElementById('btnMirror').addEventListener('click', async function() {
         const r = await api('power', { room: ROOM, pid: PID, type: 'mirror' });
         if (r.ok && r.blocked) alert('🌫️ مه حریف فعال بود! چیزی ندیدی.');
     });
-
-    document.getElementById('btnAgain').addEventListener('click', async function() {
-        await api('again', { room: ROOM, pid: PID });
-    });
+    document.getElementById('btnAgain').addEventListener('click', function() { api('again', { room: ROOM, pid: PID }); });
 
     const urlRoom = new URLSearchParams(window.location.search).get('room');
     if (urlRoom) document.getElementById('codeInput').value = urlRoom;
+    loadCoins();
 }
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bindUI);
 else bindUI();
