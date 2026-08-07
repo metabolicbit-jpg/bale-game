@@ -35,6 +35,7 @@ html,body { min-height:100%; font-family:'Vazirmatn', Tahoma, sans-serif; backgr
 .topbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
 .letter { font-size:20px; font-weight:bold; color:#fff; background:#4d96ff; padding:8px 18px; border-radius:14px; }
 .timer { font-size:24px; font-weight:bold; color:#ff6b6b; }
+.hint { font-size:11px; color:#9a9ab0; text-align:center; margin-bottom:8px; }
 .peek { background:#ece0ff; border-radius:12px; padding:8px; font-size:13px; margin-bottom:8px; color:#5b3fa8; }
 .done { background:#d8f5ef; border-radius:12px; padding:10px; font-size:13px; margin-bottom:8px; color:#0f7a6a; text-align:center; }
 .frow { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
@@ -56,7 +57,7 @@ html,body { min-height:100%; font-family:'Vazirmatn', Tahoma, sans-serif; backgr
 <div id="scrDash" class="screen">
   <div class="dash-head">
     <div class="logo">📝 نبرد واژه‌ها</div>
-    <div class="chip" id="coinChip">🪙 ۰</div>
+    <div class="chip" id="coinChip">🪙 </div>
   </div>
   <div class="grid">
     <div class="card" id="goBattle"><div class="icon c-coral">⚔️</div><h3>نبرد کلمات</h3><p>ساخت اتاق یا ورود</p></div>
@@ -84,7 +85,7 @@ html,body { min-height:100%; font-family:'Vazirmatn', Tahoma, sans-serif; backgr
       <button id="btnCopy" class="btn b-sky">📋 کپی کد</button>
       <button id="btnShare" class="btn b-mint">📤 ارسال دعوت</button>
     </div>
-    <div id="lobbyPlayers" class="chip" style="display:inline-block;margin-top:10px;">👤 ۱/۲</div>
+    <div id="lobbyPlayers" class="chip" style="display:inline-block;margin-top:10px;">👤 /۲</div>
     <p id="waitMsg" style="margin-top:10px;font-size:13px;color:#9a9ab0;">منتظر حریف...</p>
     <button id="btnStart" class="btn b-mint hidden">⚔️ شروع نبرد</button>
   </div>
@@ -92,6 +93,7 @@ html,body { min-height:100%; font-family:'Vazirmatn', Tahoma, sans-serif; backgr
 
 <div id="scrPlay" class="screen hidden">
   <div class="topbar"><span id="letterEl" class="letter">حرف: -</span><span id="timerEl" class="timer">۹۰</span></div>
+  <div class="hint">فقط کلمات معتبر در بانک بازی امتیاز می‌گیرن 📚</div>
   <div id="peekBar" class="peek hidden"></div>
   <div id="doneBar" class="done hidden"></div>
   <div class="panel"><div id="formEl"></div></div>
@@ -116,14 +118,14 @@ html,body { min-height:100%; font-family:'Vazirmatn', Tahoma, sans-serif; backgr
 </div>
 
 <div id="scrShop" class="screen hidden">
-  <div class="panel"><h3 style="margin-bottom:10px;">🛒 فروشگاه قدرت‌ها</h3><div id="shopCoin" class="chip" style="margin-bottom:10px;">🪙 ۰</div><div id="shopBody"></div></div>
+  <div class="panel"><h3 style="margin-bottom:10px;">🛒 فروشگاه قدرت‌ها</h3><div id="shopCoin" class="chip" style="margin-bottom:10px;">🪙 </div><div id="shopBody"></div></div>
   <div class="back" data-home>← بازگشت</div>
 </div>
 
 <div id="scrGuide" class="screen hidden">
   <div class="panel">
     <h3 style="margin-bottom:10px;">📖 راهنما</h3>
-    <p style="font-size:13px;line-height:2.2;">⚔️ یه حرف میاد؛ برای ۶ ستون کلمه بنویس با اون حرف.<br>⭐ ستون طلایی امتیاز ×۲.<br>⚡ ثبت زودتر = پاداش سرعت (هر ثانیه +۲).<br>🤝 کلمهٔ تکراری با حریف = نصف امتیاز.<br>👁️ آینه: جواب حریف رو ۵ ثانیه ببین.<br>🌫️ مه: خودکار جلوی آینهٔ حریف رو می‌گیره.<br>🏆 امتیاز بیشتر = برد + سکه بیشتر.</p>
+    <p style="font-size:13px;line-height:2.2;">⚔️ یه حرف میاد؛ برای ۶ ستون کلمه بنویس با اون حرف.<br>📚 فقط کلماتی که در بانک واژهٔ بازی باشن امتیاز می‌گیرن؛ کلمهٔ نامعتبر = ۰ ❌<br>⭐ ستون طلایی امتیاز ×۲.<br>⚡ ثبت زودتر = پاداش سرعت (هر ثانیه +۲).<br>🤝 کلمهٔ تکراری با حریف = نصف امتیاز.<br>👁️ آینه: جواب حریف رو ۵ ثانیه ببین.<br>🌫️ مه: خودکار جلوی آینهٔ حریف رو می‌گیره.<br>🏆 امتیاز بیشتر = برد + سکه بیشتر.</p>
   </div>
   <div class="back" data-home>← بازگشت</div>
 </div>
@@ -234,7 +236,11 @@ function onState(st) {
         if (iSubmitted) document.getElementById('doneBar').classList.remove('hidden');
         else document.getElementById('doneBar').classList.add('hidden');
     }
-    else if (st.phase === 'result') { show('result'); renderResult(st); }
+    else if (st.phase === 'result') { store.set('esm_session', ''); show('result'); renderResult(st); }
+}
+
+function markCell(v, p) {
+    return v + ' (' + toPersianNum(p) + ')' + (p === 0 && v !== '-' ? ' ❌' : '');
 }
 
 function renderResult(st) {
@@ -245,7 +251,7 @@ function renderResult(st) {
     const opp = st.players[1 - myIdx] || { name: 'حریف', score: 0, timeBonus: 0 };
     let html = '<div class="rrow"><b>ستون</b><b>تو (' + toPersianNum(me.score) + ')</b><b>' + opp.name + ' (' + toPersianNum(opp.score) + ')</b></div>';
     st.result.detail.forEach(function(d) {
-        html += '<div class="rrow' + (d.golden ? ' gold' : '') + '"><span>' + d.col + (d.golden ? '⭐' : '') + '</span><span>' + d.a + ' (' + toPersianNum(d.pa) + ')</span><span>' + d.b + ' (' + toPersianNum(d.pb) + ')</span></div>';
+        html += '<div class="rrow' + (d.golden ? ' gold' : '') + '"><span>' + d.col + (d.golden ? '⭐' : '') + '</span><span>' + markCell(d.a, d.pa) + '</span><span>' + markCell(d.b, d.pb) + '</span></div>';
     });
     html += '<div class="rrow"><span>⚡ پاداش سرعت</span><span>+' + toPersianNum(me.timeBonus || 0) + '</span><span>+' + toPersianNum(opp.timeBonus || 0) + '</span></div>';
     let myCoins = me.coinsWon || 0;
@@ -321,7 +327,7 @@ function bindUI() {
     document.getElementById('goProfile').addEventListener('click', function() { show('profile'); loadProfile(); });
     document.getElementById('goShop').addEventListener('click', function() { show('shop'); loadShop(); });
     document.getElementById('goGuide').addEventListener('click', function() { show('guide'); });
-    document.querySelectorAll('[data-home]').forEach(function(el) { el.addEventListener('click', function() { show('dash'); loadCoins(); }); });
+    document.querySelectorAll('[data-home]').forEach(function(el) { el.addEventListener('click', function() { if (pollTimer) clearInterval(pollTimer); pollTimer = null; ROOM = ''; store.set('esm_session', ''); show('dash'); loadCoins(); }); });
 
     document.getElementById('btnCreate').addEventListener('click', async function() {
         const name = document.getElementById('nameInput').value.trim() || 'بازیکن';
@@ -362,7 +368,6 @@ function bindUI() {
     const urlRoom = new URLSearchParams(window.location.search).get('room');
     if (urlRoom) document.getElementById('codeInput').value = urlRoom;
 
-    // بازیابی جلسه بعد از رفرش/خروج
     const sess = JSON.parse(store.get('esm_session') || 'null');
     if (sess && sess.room) {
         ROOM = sess.room;
